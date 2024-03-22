@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Tracking</title>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Define a function to send tracked data to the server
+        function sendTrackedData(eventData) {
+          // Here, you would send the data to your server using an HTTP request
+          console.log("Tracked data sent to server:", eventData);
+        }
+
+        // Function to track events
+        function trackEvent(eventName, eventProperties) {
+          // Collect data
+          const eventData = {
+            event_name: eventName,
+            event_properties: eventProperties,
+            event_timestamp: new Date().toISOString(),
+            platform: navigator.platform,
+            ip_address: "", // You may need to implement IP address retrieval on the server-side
+            user_agent: navigator.userAgent,
+          };
+
+          // Send data to the server
+          sendTrackedData(eventData);
+        }
+
+        // Event listener for tracking clicks on all elements
+        document.querySelectorAll("*").forEach((element) => {
+          element.addEventListener("click", function (event) {
+            // Example event name and properties
+            const eventName = "Element Clicked";
+            const eventProperties = {
+              element_text: event.target.innerText, // Text content of the clicked element
+              page_url: window.location.href,
+            };
+
+            // Track the event
+            trackEvent(eventName, eventProperties);
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Your HTML content here -->
+    <h1>Event Tracking Demo</h1>
+    <button>Track Event 1</button>
+    <button>Track Event 2</button>
+    <button>Track Event 3</button>
+    <button>Track Event 4</button>
+    <button>Track Event 5</button>
+  </body>
+</html>
